@@ -1,0 +1,5 @@
+<resources>
+
+    <dimen name="cardview_margin">5dp</dimen>
+    <dimen name="cardview_title">16sp</dimen>
+</resources>

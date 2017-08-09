@@ -1,0 +1,98 @@
+
+package com.maotong.readhub.bean.readhub.news;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+public class Datum {
+
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("siteName")
+    @Expose
+    private String siteName;
+    @SerializedName("authorName")
+    @Expose
+    private Object authorName;
+    @SerializedName("url")
+    @Expose
+    private String url;
+    @SerializedName("summary")
+    @Expose
+    private String summary;
+    @SerializedName("title")
+    @Expose
+    private String title;
+    @SerializedName("publishDate")
+    @Expose
+    private String publishDate;
+    @SerializedName("summaryAuto")
+    @Expose
+    private String summaryAuto;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getSiteName() {
+        return siteName;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
+    }
+
+    public Object getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(Object authorName) {
+        this.authorName = authorName;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(String publishDate) {
+        this.publishDate = publishDate;
+    }
+
+    public String getSummaryAuto() {
+        return summaryAuto;
+    }
+
+    public void setSummaryAuto(String summaryAuto) {
+        this.summaryAuto = summaryAuto;
+    }
+
+}

@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">ReadHub</string>
+
+
+
+    <string name="pre_refresh_data" translatable="false">refresh_data</string>
+    <string name="pre_get_image" translatable="false">get_image</string>
+    <string name="pre_cache_size" translatable="false">cache_size</string>
+    <string name="pre_feedback" translatable="false">feedback</string>
+    <string name="pre_author" translatable="false">author</string>
+    <string name="pre_version" translatable="false">version</string>
+    <string name="pre_nav_color" translatable="false">pre_nav_color</string>
+    <string name="pre_use_local" translatable="false">pre_use_local</string>
+    <string name="pre_status_bar" translatable="false">pre_status_bar</string>
+
+
+
+    <string name="share_tail">\r\n(本应用数据来自https://readhub.me/)</string>
+    <string name="share">分享到</string>
+    <string name="request_storage_permission">请允许此应用的读写文件以便于缓存文件！</string>
+    <string name="re_request_permission">没有权限臣妾做不到呀！</string>
+    <string name="toast_wifi_refresh_data">非WIFI下不自动加载数据！</string>
+
+    <string name="open_with_browser">使用浏览器打开</string>
+    <string name="update_button">现在升级</string>
+    <string name="update_description">新版%1$s版本可用\n更新内容\n%2$s</string>
+    <string name="update_title">有更新可用</string>
+
+    <string name="common_loading_error">加载失败，请检查网络！</string>
+
+    <string name="common_i_know">知道了</string>
+    <string name="comon_retry">重试</string>
+    <string name="common_cancel">取消</string>
+
+    <string name="fragment_readhub">ReadHub</string>
+     
+    <string name="readhub_hot">热门话题</string>
+    <string name="readhub_news">科技动态</string>
+    <string name="readhub_tech">开发者资讯</string>
+    <string name="fab">com.maotong.readhub.ui.view.ScrollAwareFABBehavior</string>
+
+</resources>

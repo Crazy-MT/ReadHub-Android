@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_hot"
+        android:icon="@mipmap/ic_index_hot"
+        android:title="@string/readhub_hot" />
+
+    <item
+        android:id="@+id/navigation_news"
+        android:icon="@mipmap/ic_index_news"
+        android:title="@string/readhub_news" />
+
+    <item
+        android:id="@+id/navigation_tech"
+        android:icon="@mipmap/ic_index_tech"
+        android:title="@string/readhub_tech"/>
+
+</menu>

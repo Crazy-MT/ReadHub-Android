@@ -1,0 +1,8 @@
+
+package com.maotong.readhub.bean.readhub.news;
+
+
+public class Data {
+
+
+}
