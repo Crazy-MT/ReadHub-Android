@@ -22,9 +22,6 @@
     <string name="toast_wifi_refresh_data">非WIFI下不自动加载数据！</string>
 
     <string name="open_with_browser">使用浏览器打开</string>
-    <string name="update_button">现在升级</string>
-    <string name="update_description">新版%1$s版本可用\n更新内容\n%2$s</string>
-    <string name="update_title">有更新可用</string>
 
     <string name="common_loading_error">加载失败，请检查网络！</string>
 

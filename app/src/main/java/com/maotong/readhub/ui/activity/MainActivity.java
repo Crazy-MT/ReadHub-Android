@@ -1,8 +1,6 @@
 package com.maotong.readhub.ui.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,18 +8,12 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.maotong.readhub.BuildConfig;
 import com.maotong.readhub.R;
-import com.maotong.readhub.bean.UpdateItem;
 import com.maotong.readhub.config.Config;
 import com.maotong.readhub.event.StatusBarEvent;
-import com.maotong.readhub.presenter.IMainPresenter;
-import com.maotong.readhub.presenter.impl.MainPresenterImpl;
-import com.maotong.readhub.ui.iView.IMain;
 import com.maotong.readhub.utils.RxBus;
 
 import butterknife.BindView;
@@ -31,7 +23,7 @@ import rx.functions.Action1;
 
 
 public class MainActivity extends BaseActivity
-        implements IMain, BottomNavigationView.OnNavigationItemSelectedListener {
+        implements  BottomNavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -40,7 +32,6 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.navigation)
     BottomNavigationView mNavigationView;
 
-    private IMainPresenter IMainPresenter;
     private Subscription rxSubscription;
 
     @Override
@@ -51,7 +42,6 @@ public class MainActivity extends BaseActivity
         ButterKnife.bind(this);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         setSupportActionBar(toolbar);
-        IMainPresenter = new MainPresenterImpl(this);
         boolean isKitKat = Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT;
         if (isKitKat)
             ctlMain.setFitsSystemWindows(false);
@@ -62,7 +52,7 @@ public class MainActivity extends BaseActivity
         mNavigationView.setOnNavigationItemSelectedListener(this);
         mNavigationView.setSelectedItemId(R.id.navigation_hot);
         initMenu();
-        IMainPresenter.checkUpdate();
+
 
         rxSubscription = RxBus.getDefault().toObservable(StatusBarEvent.class)
                 .subscribe(new Action1<StatusBarEvent>() {
@@ -91,33 +81,9 @@ public class MainActivity extends BaseActivity
         if (!rxSubscription.isUnsubscribed()) {
             rxSubscription.unsubscribe();
         }
-        IMainPresenter.unSubscribe();
     }
 
     private void initMenu() {
-    }
-
-
-
-    @Override
-    public void showUpdate(final UpdateItem updateItem) {
-        if (updateItem.getVersionCode() > BuildConfig.VERSION_CODE)
-            new AlertDialog.Builder(MainActivity.this)
-                    .setTitle(getString(R.string.update_title))
-                    .setMessage(String.format(getString(R.string.update_description), updateItem.getVersionName(), updateItem.getReleaseNote()))
-                    .setPositiveButton(getString(R.string.update_button), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(updateItem.getDownloadUrl())));
-                        }
-                    })
-                    .setNegativeButton(R.string.common_cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .show();
     }
 
     @Override
