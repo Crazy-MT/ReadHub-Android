@@ -25,8 +25,9 @@ public class ReadHubApplication extends Application {
                 trackingConsoleLog(true).//是否收集console log
                 trackingUserSteps(true).//是否收集用户操作步骤
                 build();
-        Bugtags.start("1b1f86c7b80aaf78f076860ccebb5807", this, Bugtags.BTGInvocationEventBubble, options);
+        Bugtags.start("50ff7c62b153b1900b4b82670c7b35b8", this, Bugtags.BTGInvocationEventNone, options);
         MobclickAgent.setCatchUncaughtExceptions(false);
+        MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
         readHubApplication = this;
     }
 

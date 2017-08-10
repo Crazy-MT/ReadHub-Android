@@ -154,10 +154,11 @@
    public <init> (org.json.JSONObject);
 }
 
--keep public class cn.tagux.calendar.R$*{
+-keep public class com.maotong.readhub.R$*{
 public static final int *;
 }
 -keepclassmembers enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+-keep class org.jsoup.**

@@ -53,6 +53,6 @@ public class WelcomePresenterImpl implements IWelcomePresenter {
                 R.color.colorPinkPrimary,
                 R.color.colorPrimary
         };
-        return ContextCompat.getColor(mContext, primaryInt[new Random().nextInt(14)]);
+        return ContextCompat.getColor(mContext, primaryInt[new Random().nextInt(13)]);
     }
 }
