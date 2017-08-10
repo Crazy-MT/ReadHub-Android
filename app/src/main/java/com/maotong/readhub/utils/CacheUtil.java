@@ -63,15 +63,15 @@ public class CacheUtil {
         return get(cacheDir, MAX_SIZE, MAX_COUNT);
     }
 
-    public static CacheUtil get(Context ctx, long maxSise, int maxCount) {
+    public static CacheUtil get(Context ctx, long maxSize, int maxCount) {
         File f = new File(ctx.getCacheDir(), "ACache");
-        return get(f, maxSise, maxCount);
+        return get(f, maxSize, maxCount);
     }
 
-    public static CacheUtil get(File cacheDir, long maxZise, int maxCount) {
+    public static CacheUtil get(File cacheDir, long maxSize, int maxCount) {
         CacheUtil manager = mInstanceMap.get(cacheDir.getAbsoluteFile() + myPid());
         if (manager == null) {
-            manager = new CacheUtil(cacheDir, maxZise, maxCount);
+            manager = new CacheUtil(cacheDir, maxSize, maxCount);
             mInstanceMap.put(cacheDir.getAbsolutePath() + myPid(), manager);
         }
         return manager;
@@ -637,7 +637,6 @@ public class CacheUtil {
     }
 
     /**
-     * @author 杨福海（michael） www.yangfuhai.com
      * @version 1.0
      * @title 缓存管理器
      */
