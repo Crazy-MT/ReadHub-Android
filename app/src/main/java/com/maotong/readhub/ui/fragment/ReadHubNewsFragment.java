@@ -24,7 +24,6 @@ import com.maotong.readhub.ui.iView.IReadHubNewsFragment;
 import com.maotong.readhub.ui.view.DividerItemDecoration;
 import com.maotong.readhub.utils.NetWorkUtil;
 import com.maotong.readhub.utils.SharePreferenceUtil;
-import com.orhanobut.logger.Logger;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -223,7 +222,6 @@ public class ReadHubNewsFragment extends BaseFragment implements SwipeRefreshLay
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
         try {
             Date date = df.parse(tzTime);
-            Logger.e(date.getTime()+"");
             return date.getTime()+"";
 
         } catch (ParseException e) {

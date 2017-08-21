@@ -1,6 +1,5 @@
 package com.maotong.readhub.ui.activity;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,13 +12,9 @@ import android.view.MenuItem;
 
 import com.maotong.readhub.R;
 import com.maotong.readhub.config.Config;
-import com.maotong.readhub.event.StatusBarEvent;
-import com.maotong.readhub.utils.RxBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Subscription;
-import rx.functions.Action1;
 
 
 public class MainActivity extends BaseActivity
@@ -32,7 +27,6 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.navigation)
     BottomNavigationView mNavigationView;
 
-    private Subscription rxSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,16 +47,6 @@ public class MainActivity extends BaseActivity
         mNavigationView.setSelectedItemId(R.id.navigation_hot);
         initMenu();
 
-
-        rxSubscription = RxBus.getDefault().toObservable(StatusBarEvent.class)
-                .subscribe(new Action1<StatusBarEvent>() {
-                    @Override
-                    public void call(StatusBarEvent statusBarEvent) {
-                        com.orhanobut.logger.Logger.i("rxbus", statusBarEvent);
-                        finish();
-                        startActivity(new Intent(MainActivity.this, MainActivity.class));
-                    }
-                });
     }
 
     @Override
@@ -78,9 +62,6 @@ public class MainActivity extends BaseActivity
         super.onDestroy();
 
         Config.TabFragment.onDestroy();
-        if (!rxSubscription.isUnsubscribed()) {
-            rxSubscription.unsubscribe();
-        }
     }
 
     private void initMenu() {

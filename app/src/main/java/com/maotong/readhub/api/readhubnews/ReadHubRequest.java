@@ -11,7 +11,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ReadHubRequest {
@@ -61,7 +61,7 @@ public class ReadHubRequest {
                 ReadHubApi = new Retrofit.Builder()
                         .baseUrl("https://api.readhub.me")
                         .client(client)
-                        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                         .addConverterFactory(GsonConverterFactory.create())
                         .build().create(com.maotong.readhub.api.readhubnews.ReadHubApi.class);
             }

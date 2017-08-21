@@ -22,12 +22,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class ReadHubTechPresenterImpl extends BasePresenterImpl implements IReadHubPresenter {
@@ -48,49 +51,40 @@ public class ReadHubTechPresenterImpl extends BasePresenterImpl implements IRead
 
         //getNews();
 
-        Subscription s = Observable.create(new Observable.OnSubscribe<Document>(){
+        Observable.create(new ObservableOnSubscribe<Document>(){
 
             @Override
-            public void call(Subscriber<? super Document> subscriber) {
-
+            public void subscribe(@NonNull ObservableEmitter<Document> emitter) throws Exception {
                 try {
                     Document doc = Jsoup.connect("https://readhub.me/tech").get();
-                    subscriber.onNext(doc);
-                    subscriber.onCompleted();
+                    emitter.onNext(doc);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    subscriber.onError(e);
+                    emitter.onError(e);
                 }
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Document>() {
+                .subscribe(new Consumer<Document>() {
                     @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                        mReadHubFragment.hidProgressDialog();
-                        mReadHubFragment.showError(e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(Document o) {
-                        Element html = o.getElementById("data");
+                    public void accept(Document document) throws Exception {
+                        Element html = document.getElementById("data");
                         Elements data1 = html.select("div[data-state]");
-                        String data3 =  data1.get(0).attr("data-state");
-                        ReadHubTech readHub = new Gson().fromJson(data3,ReadHubTech.class);
+                        String data3 = data1.get(0).attr("data-state");
+                        ReadHubTech readHub = new Gson().fromJson(data3, ReadHubTech.class);
                         mReadHubFragment.hidProgressDialog();
                         mReadHubFragment.updateList(readHub);
                         mCacheUtil.put(Config.READHUB_TECH + 0, data3);
                     }
+
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                        mReadHubFragment.hidProgressDialog();
+                        mReadHubFragment.showError(throwable.getMessage());
+                    }
                 });
-
-        addSubscription(s);
-
 
     }
 
@@ -133,13 +127,10 @@ public class ReadHubTechPresenterImpl extends BasePresenterImpl implements IRead
     @Override
     public void getMoreReadHubData(final String offset) {
         Logger.e(offset);
-        Subscription s = ReadHubRequest.getReadHubApi().getMoreData(offset+"")
+        ReadHubRequest.getReadHubApi().getMoreData(offset+"")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<DataList>() {
-                    @Override
-                    public void onCompleted() {
-                    }
 
                     @Override
                     public void onError(Throwable e) {
@@ -149,13 +140,22 @@ public class ReadHubTechPresenterImpl extends BasePresenterImpl implements IRead
                     }
 
                     @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
                     public void onNext(DataList readHubHot) {
                         mReadHubFragment.hidProgressDialog();
                         mReadHubFragment.moreList(readHubHot);
                         mCacheUtil.put(Config.READHUB_TECH + offset, new Gson().toJson(readHubHot));
                     }
                 });
-        addSubscription(s);
     }
 
 }

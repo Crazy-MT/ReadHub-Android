@@ -1,25 +1,25 @@
 package com.maotong.readhub.presenter.impl;
 
 import com.maotong.readhub.presenter.BasePresenter;
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
+
+import org.reactivestreams.Subscription;
 
 
 public class BasePresenterImpl implements BasePresenter {
 
-    private CompositeSubscription mCompositeSubscription;
+//    private CompositeSubscription mCompositeSubscription;
 
     protected void addSubscription(Subscription s) {
-        if (this.mCompositeSubscription == null) {
-            this.mCompositeSubscription = new CompositeSubscription();
-        }
-        this.mCompositeSubscription.add(s);
+//        if (this.mCompositeSubscription == null) {
+//            this.mCompositeSubscription = new CompositeSubscription();
+//        }
+//        this.mCompositeSubscription.add(s);
     }
 
     @Override
     public void unSubscribe() {
-        if (this.mCompositeSubscription != null) {
+        /*if (this.mCompositeSubscription != null) {
             this.mCompositeSubscription.unsubscribe();
-        }
+        }*/
     }
 }

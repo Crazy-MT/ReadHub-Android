@@ -18,12 +18,15 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
-import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class ReadHubActivityPresenterImpl extends BasePresenterImpl implements IReadHubActivityPresenter {
@@ -47,18 +50,25 @@ public class ReadHubActivityPresenterImpl extends BasePresenterImpl implements I
 
     @Override
     public void loadMore(final int offset) {
-        Subscription s = ReadHubRequest.getReadHubApi().getMoreData(offset+"")
+        ReadHubRequest.getReadHubApi().getMoreData(offset+"")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<DataList>() {
-                    @Override
-                    public void onCompleted() {
-                    }
 
                     @Override
                     public void onError(Throwable e) {
                         mReadHub.completeRefresh();
                         mReadHub.showError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
                     }
 
                     @Override
@@ -68,13 +78,45 @@ public class ReadHubActivityPresenterImpl extends BasePresenterImpl implements I
                         mCacheUtil.put(Config.READHUB + offset, new Gson().toJson(readHubHot));
                     }
                 });
-        addSubscription(s);
     }
 
 
     @Override
     public void refresh() {
-        Subscription s = Observable.create(new Observable.OnSubscribe<Document>(){
+
+        Observable.create(new ObservableOnSubscribe<Document>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Document> emitter) throws Exception {
+                try {
+                    Document doc = Jsoup.connect("https://readhub.me/").get();
+                    emitter.onNext(doc);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    emitter.onError(e);
+                }
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Document>() {
+                    @Override
+                    public void accept(Document document) throws Exception {
+                        Element html = document.getElementById("data");
+                        Elements data1 = html.select("div[data-state]");
+                        String data3 = data1.get(0).attr("data-state");
+                        ReadHub readHub = new Gson().fromJson(data3, ReadHub.class);
+                        mReadHub.completeRefresh();
+                        mReadHub.updateList(readHub);
+                        mCacheUtil.put(Config.READHUB + 0, data3);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        mReadHub.completeRefresh();
+                        mReadHub.showError(throwable.getMessage());
+                    }
+                });
+/*
+        Observable.create(new Observable.OnSubscribe<Document>(){
 
             @Override
             public void call(Subscriber<? super Document> subscriber) {
@@ -113,8 +155,7 @@ public class ReadHubActivityPresenterImpl extends BasePresenterImpl implements I
                         mReadHub.updateList(readHub);
                         mCacheUtil.put(Config.READHUB + 0, data3);
                     }
-                });
+                });*/
 
-        addSubscription(s);
     }
 }
