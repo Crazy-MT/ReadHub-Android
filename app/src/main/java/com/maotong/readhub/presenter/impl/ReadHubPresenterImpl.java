@@ -10,6 +10,7 @@ import com.maotong.readhub.config.Config;
 import com.maotong.readhub.presenter.IReadHubPresenter;
 import com.maotong.readhub.ui.iView.IReadHubFragment;
 import com.maotong.readhub.utils.CacheUtil;
+import com.orhanobut.logger.Logger;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -152,6 +153,7 @@ public class ReadHubPresenterImpl extends BasePresenterImpl implements IReadHubP
 
                     @Override
                     public void onError(Throwable e) {
+                        Logger.e(e.getMessage());
                         mReadHubFragment.hidProgressDialog();
                         mReadHubFragment.showError(e.getMessage());
                     }
@@ -168,6 +170,8 @@ public class ReadHubPresenterImpl extends BasePresenterImpl implements IReadHubP
 
                     @Override
                     public void onNext(DataList readHubHot) {
+                        Logger.e(readHubHot.toString());
+
                         mReadHubFragment.hidProgressDialog();
                         mReadHubFragment.moreList(readHubHot);
                         mCacheUtil.put(Config.READHUB + offset, new Gson().toJson(readHubHot));

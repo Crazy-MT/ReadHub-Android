@@ -113,8 +113,9 @@ public class ReadHubAdapter extends RecyclerView.Adapter<ReadHubAdapter.ReadHubV
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
 
+            Logger.e(time + "  " + date + "  " + calendar.get(Calendar.MONTH));
 
-            time = calendar.get(Calendar.MONTH) + "月" + calendar.get(Calendar.DAY_OF_MONTH) + "日 " + calendar.get(Calendar.HOUR_OF_DAY) + "时" + calendar.get(Calendar.MINUTE) + "分 " + diffTime(date,new Date(System.currentTimeMillis())) + "小时前" ;
+            time =( calendar.get(Calendar.MONTH) + 1) + "月" + calendar.get(Calendar.DAY_OF_MONTH) + "日 " + calendar.get(Calendar.HOUR_OF_DAY) + "时" + calendar.get(Calendar.MINUTE) + "分 " + diffTime(date,new Date(System.currentTimeMillis())) + "小时前" ;
 
         } catch (ParseException e) {
             e.printStackTrace();

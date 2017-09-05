@@ -68,9 +68,11 @@ public class ReadHubTechPresenterImpl extends BasePresenterImpl implements IRead
                 .subscribe(new Consumer<Document>() {
                     @Override
                     public void accept(Document document) throws Exception {
+
                         Element html = document.getElementById("data");
                         Elements data1 = html.select("div[data-state]");
                         String data3 = data1.get(0).attr("data-state");
+
                         ReadHubTech readHub = new Gson().fromJson(data3, ReadHubTech.class);
                         mReadHubFragment.hidProgressDialog();
                         mReadHubFragment.updateList(readHub);
@@ -80,7 +82,7 @@ public class ReadHubTechPresenterImpl extends BasePresenterImpl implements IRead
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-
+                        Logger.e(throwable.getMessage());
                         mReadHubFragment.hidProgressDialog();
                         mReadHubFragment.showError(throwable.getMessage());
                     }

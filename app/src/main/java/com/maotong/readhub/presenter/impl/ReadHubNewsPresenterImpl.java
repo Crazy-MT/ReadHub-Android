@@ -10,14 +10,13 @@ import com.maotong.readhub.config.Config;
 import com.maotong.readhub.presenter.IReadHubPresenter;
 import com.maotong.readhub.ui.iView.IReadHubNewsFragment;
 import com.maotong.readhub.utils.CacheUtil;
+import com.orhanobut.logger.Logger;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.io.IOException;
-
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -107,6 +106,7 @@ public class ReadHubNewsPresenterImpl extends BasePresenterImpl implements IRead
                 .subscribe(new Consumer<DataList>() {
                     @Override
                     public void accept(DataList dataList) throws Exception {
+                        Logger.e(dataList.toString());
                         mReadHubFragment.hidProgressDialog();
                         mReadHubFragment.moreList(dataList);
                         mCacheUtil.put(Config.READHUB_NEWS + offset, new Gson().toJson(dataList));
@@ -116,6 +116,7 @@ public class ReadHubNewsPresenterImpl extends BasePresenterImpl implements IRead
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
+                        Logger.e(throwable.getMessage());
                         mReadHubFragment.hidProgressDialog();
                         mReadHubFragment.showError(throwable.getMessage());
                     }
